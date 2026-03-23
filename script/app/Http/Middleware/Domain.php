@@ -23,7 +23,13 @@ class Domain
      */
     public function handle(Request $request, Closure $next)
     {
-        $domain=\Request::getHost();
+        // If request came through Cloudflare Worker, use the original subdomain
+        $workerSecret = env('WORKER_SECRET');
+        if ($workerSecret && $request->header('X-Worker-Secret') === $workerSecret) {
+            $domain = $request->header('X-Original-Host');
+        } else {
+            $domain = \Request::getHost();
+        }
         $full_domain= url('/');
 
 
