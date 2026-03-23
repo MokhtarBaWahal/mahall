@@ -1,4 +1,4 @@
-var cacheName = 'dokans-pwa';
+var cacheName = 'mahall-pwa';
 var filesToCache = [
   '/check',
   
