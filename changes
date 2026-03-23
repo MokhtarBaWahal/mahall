@@ -1,0 +1,13 @@
+//helper file
+script/app/Helper/helper.php
+
+//main site
+script/resources/views/layouts/app.blade.php
+script/resources/views/main/app.blade.php
+script/resources/views/marchant/register.blade.php
+
+//for theme
+script/resources/views/frontend/arafa-cart/layouts/app.blade.php
+script/resources/views/frontend/bazar/layouts/app.blade.php
+script/resources/views/frontend/bigbag/layouts/app.blade.php
+script/resources/views/frontend/saka-cart/layouts/app.blade.php
