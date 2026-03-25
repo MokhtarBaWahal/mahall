@@ -8,9 +8,11 @@
   <title>{{ config('app.name', 'Laravel') }}</title>
   <!-- General CSS Files -->
   <link rel="stylesheet" href="{{ asset('assets/frontend/css/bootstrap.min.css') }}">
-  <!-- INCLUDE FONTS --> 
+  <!-- INCLUDE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('assets/css/fontawsome/all.min.css') }}">
-  <link href="//fonts.googleapis.com/css?family=Nunito:400,600,700,800" rel="stylesheet">
   <!-- CSS Libraries -->
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -19,6 +21,8 @@
   @if(isRtl(str_replace('_', '-', app()->getLocale())))
   <link rel="stylesheet" href="{{ asset('assets/css/rtl.css') }}">
   @endif
+  <!-- Mahal Platform Theme -->
+  <link rel="stylesheet" href="{{ asset('assets/css/mahal-theme.css') }}">
   
   @stack('style')
 </head>

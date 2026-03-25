@@ -1,0 +1,662 @@
+/* ============================================================
+   Mahal Platform Theme - منصة محل
+   Overrides Stisla with the brown/gold Arabic design system
+   ============================================================ */
+
+/* ── Arabic Font ── */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+  --mahal-sidebar-bg:     #2C1A0E;
+  --mahal-sidebar-hover:  #3D2415;
+  --mahal-sidebar-active: #3D2415;
+  --mahal-sidebar-border: rgba(255,255,255,0.08);
+  --mahal-accent:         #C8933A;
+  --mahal-accent-dark:    #9E7020;
+  --mahal-accent-light:   #F0D9A8;
+  --mahal-page-bg:        #F5F0E8;
+  --mahal-card-bg:        #FFFFFF;
+  --mahal-text-primary:   #1A1A1A;
+  --mahal-text-muted:     #7B7B7B;
+  --mahal-border:         #E8E0D0;
+  --mahal-success:        #22C55E;
+  --mahal-warning:        #F59E0B;
+  --mahal-danger:         #EF4444;
+  --mahal-info:           #3B82F6;
+  --mahal-sidebar-width:  260px;
+}
+
+/* ── Base Typography ── */
+body,
+body * {
+  font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif !important;
+}
+
+body {
+  background-color: var(--mahal-page-bg) !important;
+  color: var(--mahal-text-primary) !important;
+}
+
+/* ── Override Stisla Primary Color ── */
+.bg-primary,
+.btn-primary,
+.card-icon.bg-primary,
+.shadow-primary {
+  background-color: var(--mahal-accent) !important;
+  border-color: var(--mahal-accent) !important;
+}
+
+.text-primary,
+a { color: var(--mahal-accent) !important; }
+
+a:hover { color: var(--mahal-accent-dark) !important; }
+
+/* ── Navbar (Top Header) ── */
+.navbar-bg,
+.main-navbar {
+  background-color: var(--mahal-card-bg) !important;
+  border-bottom: 1px solid var(--mahal-border) !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
+  height: 64px;
+}
+
+.main-navbar .navbar-nav .nav-link {
+  color: var(--mahal-text-primary) !important;
+}
+
+.main-navbar .form-inline .form-control {
+  background: #F5F0E8 !important;
+  border: 1px solid var(--mahal-border) !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  font-size: 14px !important;
+  min-width: 280px;
+  color: var(--mahal-text-primary) !important;
+}
+
+.main-navbar .form-inline .form-control::placeholder {
+  color: var(--mahal-text-muted) !important;
+}
+
+/* Notification icon */
+.main-navbar .nav-link .badge {
+  background-color: var(--mahal-danger) !important;
+}
+
+/* User avatar area */
+.main-navbar .nav-link-user img {
+  width: 38px !important;
+  height: 38px !important;
+  border: 2px solid var(--mahal-accent) !important;
+}
+
+/* Help button */
+.btn-help {
+  background: var(--mahal-page-bg) !important;
+  border: 1px solid var(--mahal-border) !important;
+  color: var(--mahal-text-primary) !important;
+  border-radius: 8px !important;
+  padding: 6px 14px !important;
+  font-size: 13px !important;
+}
+
+/* ── Sidebar ── */
+.main-sidebar {
+  background-color: var(--mahal-sidebar-bg) !important;
+  width: var(--mahal-sidebar-width) !important;
+  box-shadow: -2px 0 20px rgba(0,0,0,0.15) !important;
+}
+
+#sidebar-wrapper {
+  background-color: var(--mahal-sidebar-bg) !important;
+  width: var(--mahal-sidebar-width) !important;
+}
+
+/* Logo / Brand */
+.sidebar-brand {
+  background-color: var(--mahal-sidebar-bg) !important;
+  border-bottom: 1px solid var(--mahal-sidebar-border) !important;
+  padding: 18px 20px !important;
+  height: 64px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.sidebar-brand a {
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  color: #FFFFFF !important;
+  text-decoration: none !important;
+  letter-spacing: 1px;
+}
+
+.sidebar-brand-sm a {
+  color: #FFFFFF !important;
+}
+
+/* ── Sidebar Menu ── */
+.sidebar-menu {
+  padding: 12px 0 !important;
+}
+
+.sidebar-menu > li > a {
+  color: rgba(255,255,255,0.75) !important;
+  padding: 11px 20px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  border-radius: 0 !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px;
+  border-left: 3px solid transparent !important;
+}
+
+.sidebar-menu > li > a:hover {
+  background-color: var(--mahal-sidebar-hover) !important;
+  color: #FFFFFF !important;
+  border-left-color: var(--mahal-accent) !important;
+}
+
+.sidebar-menu > li.active > a,
+.sidebar-menu > li > a.active {
+  background-color: var(--mahal-sidebar-active) !important;
+  color: #FFFFFF !important;
+  border-left-color: var(--mahal-accent) !important;
+  font-weight: 600 !important;
+}
+
+/* Icons in sidebar */
+.sidebar-menu > li > a i,
+.sidebar-menu > li > a [class^="flaticon"],
+.sidebar-menu > li > a .fas,
+.sidebar-menu > li > a .far,
+.sidebar-menu > li > a .fa {
+  color: rgba(255,255,255,0.6) !important;
+  font-size: 16px !important;
+  width: 20px !important;
+  text-align: center !important;
+}
+
+.sidebar-menu > li.active > a i,
+.sidebar-menu > li.active > a [class^="flaticon"],
+.sidebar-menu > li > a:hover i {
+  color: var(--mahal-accent) !important;
+}
+
+/* Dropdown submenu */
+.sidebar-menu .dropdown-menu {
+  background-color: #231508 !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 4px 0 !important;
+}
+
+.sidebar-menu .dropdown-menu li a {
+  color: rgba(255,255,255,0.65) !important;
+  padding: 8px 20px 8px 36px !important;
+  font-size: 13px !important;
+}
+
+.sidebar-menu .dropdown-menu li a:hover,
+.sidebar-menu .dropdown-menu li a.active {
+  color: #FFFFFF !important;
+  background-color: rgba(200,147,58,0.15) !important;
+}
+
+/* Section divider header */
+.sidebar-menu .menu-header {
+  color: rgba(255,255,255,0.35) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.5px !important;
+  text-transform: uppercase !important;
+  padding: 16px 20px 6px !important;
+}
+
+/* Bottom CTA button in sidebar */
+.main-sidebar .btn-primary {
+  background-color: var(--mahal-accent) !important;
+  border-color: var(--mahal-accent) !important;
+  color: #FFFFFF !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+}
+
+/* ── Main Content Area ── */
+.main-content {
+  background-color: var(--mahal-page-bg) !important;
+}
+
+.main-wrapper {
+  background-color: var(--mahal-page-bg) !important;
+}
+
+/* ── Cards ── */
+.card {
+  background-color: var(--mahal-card-bg) !important;
+  border: 1px solid var(--mahal-border) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 12px rgba(44,26,14,0.07) !important;
+}
+
+.card-header {
+  background-color: var(--mahal-card-bg) !important;
+  border-bottom: 1px solid var(--mahal-border) !important;
+  border-radius: 12px 12px 0 0 !important;
+  padding: 16px 20px !important;
+}
+
+.card-header h4 {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: var(--mahal-text-primary) !important;
+  margin: 0 !important;
+}
+
+.card-body {
+  padding: 20px !important;
+}
+
+/* ── Stat Cards (Mahal style) ── */
+.mahal-stat-card {
+  background: var(--mahal-card-bg);
+  border: 1px solid var(--mahal-border);
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(44,26,14,0.07);
+}
+
+.mahal-stat-card.dark-card {
+  background: var(--mahal-sidebar-bg);
+  border-color: transparent;
+}
+
+.mahal-stat-card.dark-card * { color: #FFFFFF !important; }
+
+.mahal-stat-card .stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.mahal-stat-card .stat-icon.icon-accent   { background: rgba(200,147,58,0.15); color: var(--mahal-accent) !important; }
+.mahal-stat-card .stat-icon.icon-success  { background: rgba(34,197,94,0.12);  color: var(--mahal-success) !important; }
+.mahal-stat-card .stat-icon.icon-info     { background: rgba(59,130,246,0.12); color: var(--mahal-info) !important; }
+.mahal-stat-card .stat-icon.icon-warning  { background: rgba(245,158,11,0.12); color: var(--mahal-warning) !important; }
+
+.mahal-stat-card .stat-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--mahal-text-primary);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.mahal-stat-card .stat-label {
+  font-size: 13px;
+  color: var(--mahal-text-muted);
+  margin-bottom: 10px;
+}
+
+.mahal-stat-card .stat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.stat-badge.up   { background: rgba(34,197,94,0.12);  color: var(--mahal-success) !important; }
+.stat-badge.down { background: rgba(239,68,68,0.12);   color: var(--mahal-danger) !important; }
+
+/* ── Welcome Banner ── */
+.mahal-welcome-card {
+  background: linear-gradient(135deg, #F5E6CC 0%, #EDD9A3 100%);
+  border: 1px solid #E8C87A;
+  border-radius: 12px;
+  padding: 24px 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mahal-welcome-card .welcome-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--mahal-sidebar-bg) !important;
+  margin-bottom: 6px;
+}
+
+.mahal-welcome-card .welcome-subtitle {
+  font-size: 13px;
+  color: #6B5530 !important;
+}
+
+.mahal-welcome-card .btn-new-product {
+  background: var(--mahal-sidebar-bg) !important;
+  color: #FFFFFF !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 8px 18px !important;
+  border: none !important;
+}
+
+.mahal-welcome-card .btn-view-report {
+  background: transparent !important;
+  color: var(--mahal-sidebar-bg) !important;
+  border: 1.5px solid var(--mahal-sidebar-bg) !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 8px 18px !important;
+}
+
+/* ── Storage Indicator ── */
+.mahal-storage-card {
+  background: var(--mahal-card-bg);
+  border: 1px solid var(--mahal-border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(44,26,14,0.07);
+}
+
+.mahal-storage-card .storage-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--mahal-text-primary);
+  margin-bottom: 16px;
+}
+
+.storage-donut-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8px auto 16px;
+}
+
+.storage-donut-wrap .donut-center {
+  position: absolute;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--mahal-sidebar-bg);
+}
+
+.storage-detail {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--mahal-text-muted);
+  margin-bottom: 4px;
+}
+
+.storage-detail span:last-child { color: var(--mahal-text-primary); font-weight: 600; }
+
+/* ── Charts ── */
+.mahal-chart-card {
+  background: var(--mahal-card-bg);
+  border: 1px solid var(--mahal-border);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(44,26,14,0.07);
+}
+
+.mahal-chart-card .chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 0;
+  margin-bottom: 8px;
+}
+
+.mahal-chart-card .chart-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--mahal-text-primary);
+}
+
+.chart-period-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--mahal-page-bg);
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.chart-period-tabs .tab-btn {
+  border: none;
+  background: transparent;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--mahal-text-muted);
+  transition: all 0.2s;
+}
+
+.chart-period-tabs .tab-btn.active {
+  background: var(--mahal-card-bg);
+  color: var(--mahal-accent);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* ── Order Stats Bar ── */
+.order-stats-bar {
+  display: flex;
+  gap: 16px;
+  padding: 14px 20px;
+  background: var(--mahal-page-bg);
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.order-stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.order-stat-item .stat-num {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--mahal-text-primary);
+}
+
+.order-stat-item .stat-lbl {
+  font-size: 11px;
+  color: var(--mahal-text-muted);
+  margin-top: 2px;
+}
+
+/* ── Tables ── */
+.table {
+  color: var(--mahal-text-primary) !important;
+}
+
+.table thead th {
+  border-top: none !important;
+  border-bottom: 2px solid var(--mahal-border) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  color: var(--mahal-text-muted) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  padding: 12px 16px !important;
+  background: var(--mahal-page-bg) !important;
+}
+
+.table tbody td {
+  border-bottom: 1px solid var(--mahal-border) !important;
+  padding: 14px 16px !important;
+  font-size: 13.5px !important;
+  vertical-align: middle !important;
+}
+
+.table tbody tr:hover { background: rgba(200,147,58,0.04) !important; }
+
+/* ── Badges ── */
+.badge-success { background-color: rgba(34,197,94,0.12) !important; color: var(--mahal-success) !important; }
+.badge-warning { background-color: rgba(245,158,11,0.12) !important; color: var(--mahal-warning) !important; }
+.badge-danger  { background-color: rgba(239,68,68,0.12) !important;  color: var(--mahal-danger) !important; }
+.badge-info    { background-color: rgba(59,130,246,0.12) !important;  color: var(--mahal-info) !important; }
+
+.badge {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 4px 10px !important;
+  border-radius: 20px !important;
+}
+
+/* ── Buttons ── */
+.btn {
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+}
+
+.btn-primary {
+  background-color: var(--mahal-accent) !important;
+  border-color: var(--mahal-accent) !important;
+  color: #FFFFFF !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--mahal-accent-dark) !important;
+  border-color: var(--mahal-accent-dark) !important;
+}
+
+.btn-dark-mahal {
+  background-color: var(--mahal-sidebar-bg) !important;
+  border-color: var(--mahal-sidebar-bg) !important;
+  color: #FFFFFF !important;
+}
+
+.btn-outline-mahal {
+  background: transparent !important;
+  border: 1.5px solid var(--mahal-accent) !important;
+  color: var(--mahal-accent) !important;
+}
+
+/* ── Forms ── */
+.form-control {
+  border: 1px solid var(--mahal-border) !important;
+  border-radius: 8px !important;
+  background: var(--mahal-card-bg) !important;
+  color: var(--mahal-text-primary) !important;
+  font-size: 13.5px !important;
+}
+
+.form-control:focus {
+  border-color: var(--mahal-accent) !important;
+  box-shadow: 0 0 0 3px rgba(200,147,58,0.15) !important;
+}
+
+.form-group label {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--mahal-text-primary) !important;
+}
+
+/* ── Breadcrumb / Section heading ── */
+.section-header h1,
+.section-title {
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  color: var(--mahal-text-primary) !important;
+}
+
+.section-header-back {
+  color: var(--mahal-text-muted) !important;
+  font-size: 13px !important;
+}
+
+/* ── Footer ── */
+.main-footer {
+  background-color: var(--mahal-card-bg) !important;
+  border-top: 1px solid var(--mahal-border) !important;
+  color: var(--mahal-text-muted) !important;
+  font-size: 13px !important;
+}
+
+/* ── Dropdown menus ── */
+.dropdown-menu {
+  border: 1px solid var(--mahal-border) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 24px rgba(44,26,14,0.12) !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: var(--mahal-page-bg) !important;
+  color: var(--mahal-accent) !important;
+}
+
+/* ── Pagination ── */
+.page-link {
+  color: var(--mahal-accent) !important;
+  border-color: var(--mahal-border) !important;
+  border-radius: 6px !important;
+}
+
+.page-item.active .page-link {
+  background-color: var(--mahal-accent) !important;
+  border-color: var(--mahal-accent) !important;
+  color: #FFFFFF !important;
+}
+
+/* ── Alert / Notification card ── */
+.mahal-support-card {
+  background: var(--mahal-sidebar-bg);
+  border-radius: 12px;
+  padding: 20px;
+  color: #FFFFFF;
+}
+
+.mahal-support-card h5 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #FFFFFF !important;
+  margin-bottom: 8px;
+}
+
+.mahal-support-card p {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7) !important;
+  margin-bottom: 14px;
+}
+
+.mahal-support-card .btn-contact {
+  background: var(--mahal-accent) !important;
+  border: none !important;
+  color: #FFFFFF !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 8px 18px !important;
+  width: 100%;
+}
+
+/* ── Subscription / Plan expiry alert ── */
+.alert-warning {
+  background-color: rgba(245,158,11,0.1) !important;
+  border-color: var(--mahal-warning) !important;
+  color: #92400E !important;
+  border-radius: 10px !important;
+}
+
+/* ── Responsive ── */
+@media (max-width: 767px) {
+  .main-sidebar { width: 260px !important; }
+  .mahal-welcome-card .welcome-title { font-size: 20px; }
+}
