@@ -38,7 +38,11 @@ class FrontendController extends Controller
       
         $url=$request->getHost();
         $url=str_replace('www.','',$url);
-        if($url==env('APP_PROTOCOLESS_URL') || $url == 'localhost'){
+        $mainDomain = env('APP_PROTOCOLESS_URL');
+        if(!$mainDomain || $mainDomain == 'localhost:8000') {
+            $mainDomain = parse_url(env('APP_URL', 'https://mahall.io'), PHP_URL_HOST) ?? 'mahall.io';
+        }
+        if($url == $mainDomain || $url == env('APP_PROTOCOLESS_URL') || $url == 'localhost'){
 
         
         $seo=Option::where('key','seo')->first();
@@ -97,7 +101,11 @@ class FrontendController extends Controller
     public function check(Request $request){
        $url=$request->getHost();
        $url=str_replace('www.','',$url);
-       if($url==env('APP_PROTOCOLESS_URL') || $url == 'localhost'){
+       $mainDomain = env('APP_PROTOCOLESS_URL');
+       if(!$mainDomain || $mainDomain == 'localhost:8000') {
+           $mainDomain = parse_url(env('APP_URL', 'https://mahall.io'), PHP_URL_HOST) ?? 'mahall.io';
+       }
+       if($url == $mainDomain || $url == env('APP_PROTOCOLESS_URL') || $url == 'localhost'){
         return redirect(env('APP_URL'));
        }
 
