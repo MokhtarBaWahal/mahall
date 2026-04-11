@@ -56,35 +56,11 @@ Auth::routes(['verify' => true]);
 // UTILITY (temporary - remove after use)
 // ============================================================
 Route::get('/clear-cache-mahal', function () {
-    // Fix .env domain settings if still pointing to localhost
-    $envPath = base_path('.env');
-    $env = file_get_contents($envPath);
-    $changed = false;
-    $replacements = [
-        'APP_ENV=local' => 'APP_ENV=production',
-        'APP_DEBUG=true' => 'APP_DEBUG=false',
-        'APP_URL=http://localhost:8000' => 'APP_URL=https://mahall.io',
-        'APP_URL_WITHOUT_WWW=http://localhost:8000' => 'APP_URL_WITHOUT_WWW=https://mahall.io',
-        'APP_PROTOCOLESS_URL=localhost:8000' => 'APP_PROTOCOLESS_URL=mahall.io',
-        'APP_PROTOCOL=http://' => 'APP_PROTOCOL=https://',
-    ];
-    foreach ($replacements as $search => $replace) {
-        if (strpos($env, $search) !== false) {
-            $env = str_replace($search, $replace, $env);
-            $changed = true;
-        }
-    }
-    if ($changed) {
-        file_put_contents($envPath, $env);
-    }
-
     \Artisan::call('view:clear');
     \Artisan::call('cache:clear');
     \Artisan::call('config:clear');
     \Artisan::call('route:clear');
-    return $changed
-        ? 'ENV updated to mahall.io + all caches cleared!'
-        : 'All caches cleared (ENV already correct).';
+    return 'All caches cleared! You can remove this route now.';
 });
 
 // ============================================================
@@ -473,4 +449,3 @@ Route::get('/cron/expired-tenant', 'CronController@expiredTenant');
 Route::get('/cron/reset-price', 'CronController@reset_product_price');
 Route::get('/cron/expire-soon', 'CronController@expireSoon');
 Route::get('/cron/send-mail', 'CronController@send_mail_to_will_expire_plan_soon');
-
