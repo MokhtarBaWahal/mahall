@@ -4,15 +4,18 @@
     {{-- ── Brand Logo ── --}}
     <div class="sidebar-brand">
       <a href="{{ Auth::user()->role_id == 1 ? route('admin.dashboard') : route('seller.dashboard') }}"
-         style="display:flex;align-items:center;gap:10px;text-decoration:none;">
-        <span style="background:var(--mahal-accent);color:#fff;font-weight:900;font-size:18px;
-                     width:36px;height:36px;border-radius:8px;display:flex;align-items:center;
+         style="display:flex;align-items:center;gap:12px;text-decoration:none;">
+        <span style="background:var(--m-primary);color:#fff;font-weight:900;font-size:20px;
+                     width:40px;height:40px;border-radius:10px;display:flex;align-items:center;
                      justify-content:center;">م</span>
-        <span style="color:#fff;font-size:20px;font-weight:800;">محل</span>
+        <div>
+          <span style="color:var(--m-primary);font-size:24px;font-weight:800;font-family:'Cairo',sans-serif!important;line-height:1;">محل</span>
+          <div style="font-size:10px;color:var(--m-text-body);font-weight:500;letter-spacing:1px;text-transform:uppercase;">{{ Auth::user()->name }}</div>
+        </div>
       </a>
     </div>
     <div class="sidebar-brand sidebar-brand-sm">
-      <a href="#" style="color:#fff;font-weight:900;font-size:18px;">م</a>
+      <a href="#" style="color:var(--m-primary);font-weight:900;font-size:20px;">م</a>
     </div>
 
     <ul class="sidebar-menu">
@@ -251,15 +254,11 @@
         </li>
 
         {{-- Orders --}}
-        <li class="dropdown {{ Request::is('seller/order*') ? 'active' : '' }}">
-          <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
+        <li class="{{ Request::is('seller/order*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ url('/seller/orders/all') }}">
             <i class="fas fa-shopping-bag"></i>
             <span>{{ __('Orders') }}</span>
           </a>
-          <ul class="dropdown-menu">
-            <li><a class="nav-link" href="{{ url('/seller/orders/all') }}">{{ __('All Orders') }}</a></li>
-            <li><a class="nav-link" href="{{ url('/seller/orders/canceled') }}">{{ __('Canceled') }}</a></li>
-          </ul>
         </li>
 
         {{-- Products --}}
@@ -279,16 +278,6 @@
             <li><a class="nav-link" href="{{ route('seller.coupon.index') }}">{{ __('Coupons') }}</a></li>
           </ul>
         </li>
-
-        {{-- Customers --}}
-        @if(env('MULTILEVEL_CUSTOMER_REGISTER') == true)
-        <li class="{{ Request::is('seller/customer*') ? 'active' : '' }}">
-          <a class="nav-link" href="{{ route('seller.customer.index') }}">
-            <i class="fas fa-users"></i>
-            <span>{{ __('Customers') }}</span>
-          </a>
-        </li>
-        @endif
 
         {{-- Transactions --}}
         <li class="{{ Request::is('seller/transection*') ? 'active' : '' }}">
@@ -398,18 +387,32 @@
           </ul>
         </li>
 
-        {{-- Visit Website CTA --}}
-        <div class="mt-3 mb-4 px-3 hide-sidebar-mini">
-          <a href="{{ url('/') }}" class="btn btn-primary w-100"
-             style="background:var(--mahal-accent)!important;border-color:var(--mahal-accent)!important;
-                    border-radius:8px!important;font-weight:700!important;font-size:13px!important;">
-            <i class="fas fa-external-link-alt me-1"></i>
-            {{ __('Visit Store') }}
-          </a>
-        </div>
-
       @endif {{-- end seller --}}
 
     </ul>
+
+    {{-- ── Sidebar footer: Help card + Logout ── --}}
+    <div style="padding:16px 24px;margin-top:auto;">
+      <div class="mahal-help-card">
+        <h5>{{ __('Need Help?') }}</h5>
+        <p>{{ __('Our team is ready to help you at any time.') }}</p>
+        @if(Auth::user()->role_id == 3)
+        <a href="{{ filter_var(user_limit()['live_support'] ?? false) ? route('seller.support') : '#' }}"
+           class="btn btn-primary btn-sm w-100" style="font-size:13px;">
+          {{ __('Contact Us') }}
+        </a>
+        @endif
+      </div>
+
+      <a href="{{ route('logout') }}"
+         onclick="event.preventDefault(); document.getElementById('logout-form-sidebar').submit();"
+         style="display:flex;align-items:center;gap:8px;padding:12px 0 0;margin-top:12px;
+                font-size:16px;font-weight:500;color:#ba1a1a!important;text-decoration:none;">
+        <i class="fas fa-sign-out-alt" style="color:#ba1a1a;"></i>
+        {{ __('Logout') }}
+      </a>
+      <form id="logout-form-sidebar" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
+    </div>
+
   </aside>
 </div>

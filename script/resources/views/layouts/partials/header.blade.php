@@ -1,71 +1,67 @@
 <nav class="navbar navbar-expand-lg main-navbar"
-     style="background:#fff;border-bottom:1px solid var(--mahal-border);
-            box-shadow:0 2px 12px rgba(44,26,14,0.06);height:64px;padding:0 24px;">
+     style="background:rgba(254,248,243,.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+            border-bottom:none;box-shadow:none;height:64px;padding:0 32px;">
 
   {{-- ── Toggle sidebar (mobile) ── --}}
   <ul class="navbar-nav mr-3">
     <li>
       <a href="#" data-toggle="sidebar"
          class="nav-link nav-link-lg"
-         style="color:var(--mahal-text-primary);font-size:18px;padding:0 8px;">
+         style="color:var(--m-text);font-size:18px;padding:0 8px;">
         <i class="fas fa-bars"></i>
       </a>
     </li>
   </ul>
 
   {{-- ── Search bar ── --}}
-  <form class="form-inline mr-auto" style="flex:1;max-width:380px;">
+  <form class="form-inline mr-auto" style="flex:1;max-width:448px;">
     <div class="input-group" style="width:100%;">
-      <div class="input-group-prepend">
-        <span class="input-group-text"
-              style="background:var(--mahal-page-bg);border:1px solid var(--mahal-border);
-                     border-right:none;border-radius:8px 0 0 8px;padding:0 12px;color:var(--mahal-text-muted);">
-          <i class="fas fa-search" style="font-size:13px;"></i>
-        </span>
-      </div>
       <input type="text"
              class="form-control"
              placeholder="{{ __('Search...') }}"
-             style="border-left:none!important;border-radius:0 8px 8px 0!important;
-                    background:var(--mahal-page-bg)!important;
-                    border:1px solid var(--mahal-border)!important;
-                    font-size:13px!important;height:38px;">
+             style="border:none!important;border-radius:var(--m-radius-sm)!important;
+                    background:var(--m-sidebar-bg)!important;
+                    font-size:14px!important;height:40px;padding:10px 16px!important;
+                    color:var(--m-text)!important;">
+      <div class="input-group-append">
+        <span class="input-group-text"
+              style="background:var(--m-sidebar-bg);border:none;
+                     border-radius:0 var(--m-radius-sm) var(--m-radius-sm) 0;
+                     padding:0 14px;color:var(--m-text-body);">
+          <i class="fas fa-search" style="font-size:14px;"></i>
+        </span>
+      </div>
     </div>
   </form>
 
   {{-- ── Right-side icons ── --}}
-  <ul class="navbar-nav navbar-right" style="align-items:center;gap:4px;">
-
-    {{-- Help button --}}
-    <li class="nav-item d-none d-md-block">
-      <a href="#" class="btn btn-help"
-         style="background:var(--mahal-page-bg);border:1px solid var(--mahal-border);
-                color:var(--mahal-text-primary);border-radius:8px;font-size:13px;
-                font-weight:600;padding:6px 14px;text-decoration:none;">
-        <i class="fas fa-question-circle mr-1" style="color:var(--mahal-accent);"></i>
-        {{ __('Help') }}
-      </a>
-    </li>
+  <ul class="navbar-nav navbar-right" style="align-items:center;gap:6px;">
 
     {{-- Language switcher --}}
     <li class="nav-item d-none d-md-block">
       <a href="#"
-         style="display:flex;align-items:center;gap:4px;padding:6px 10px;
-                border:1px solid var(--mahal-border);border-radius:8px;
-                font-size:13px;font-weight:600;color:var(--mahal-text-primary);
-                text-decoration:none;background:var(--mahal-page-bg);">
-        <i class="fas fa-globe" style="color:var(--mahal-accent);font-size:13px;"></i>
+         style="display:flex;align-items:center;gap:6px;padding:6px 12px;
+                border-radius:var(--m-radius-sm);font-size:14px;font-weight:500;
+                color:var(--m-text)!important;text-decoration:none;">
+        <i class="fas fa-globe" style="font-size:14px;color:var(--m-text-body);"></i>
         {{ strtoupper(app()->getLocale()) }}
+      </a>
+    </li>
+
+    {{-- Help --}}
+    <li class="nav-item d-none d-md-block">
+      <a href="#" style="display:flex;align-items:center;gap:4px;padding:8px;
+                         color:var(--m-text-body)!important;text-decoration:none;font-size:14px;">
+        <i class="fas fa-question-circle" style="font-size:16px;"></i>
+        <span>{{ __('Help') }}</span>
       </a>
     </li>
 
     {{-- Notifications --}}
     <li class="nav-item">
-      <a href="#"
-         class="nav-link"
-         style="color:var(--mahal-text-primary);padding:8px;position:relative;">
+      <a href="#" class="nav-link"
+         style="color:var(--m-text);padding:8px;position:relative;">
         <i class="fas fa-bell" style="font-size:17px;"></i>
-        {{-- Unread badge can be injected here --}}
       </a>
     </li>
 
@@ -75,29 +71,23 @@
          data-toggle="dropdown"
          class="nav-link dropdown-toggle"
          style="display:flex;align-items:center;gap:8px;padding:4px 8px;
-                border-radius:8px;color:var(--mahal-text-primary);text-decoration:none;">
+                border-radius:var(--m-radius-sm);color:var(--m-text);text-decoration:none;">
         <img alt="{{ Auth::user()->name }}"
-             src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=C8933A&color=fff"
-             style="width:36px;height:36px;border-radius:50%;border:2px solid var(--mahal-accent);">
-        <span class="d-none d-lg-inline"
-              style="font-size:13px;font-weight:600;max-width:120px;
-                     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-          {{ Auth::user()->name }}
-        </span>
-        <i class="fas fa-chevron-down" style="font-size:11px;color:var(--mahal-text-muted);"></i>
+             src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=79582f&color=fff&size=64"
+             style="width:36px;height:36px;border-radius:50%;border:2px solid var(--m-accent);">
       </a>
 
       <div class="dropdown-menu dropdown-menu-right"
-           style="min-width:200px;padding:8px 0;border-radius:10px;
-                  border:1px solid var(--mahal-border);
-                  box-shadow:0 8px 24px rgba(44,26,14,0.12);">
+           style="min-width:220px;padding:8px 0;border-radius:var(--m-radius-md);
+                  border:1px solid var(--m-border-light);
+                  box-shadow:0 8px 24px rgba(54,31,26,.12);">
 
         {{-- Profile header --}}
-        <div style="padding:12px 16px 10px;border-bottom:1px solid var(--mahal-border);">
-          <div style="font-size:13px;font-weight:700;color:var(--mahal-text-primary);">
+        <div style="padding:14px 16px 12px;border-bottom:1px solid var(--m-border-light);">
+          <div style="font-size:14px;font-weight:700;color:var(--m-text);">
             {{ Auth::user()->name }}
           </div>
-          <div style="font-size:11px;color:var(--mahal-text-muted);">
+          <div style="font-size:12px;color:var(--m-text-body);">
             {{ Auth::user()->email }}
           </div>
         </div>
@@ -107,34 +97,34 @@
           @if(Auth::user()->status == 1)
           <a href="{{ route('seller.seller.settings') }}"
              class="dropdown-item"
-             style="font-size:13px;padding:10px 16px;color:var(--mahal-text-primary);">
-            <i class="far fa-user mr-2" style="color:var(--mahal-accent);width:16px;"></i>
+             style="font-size:14px;padding:10px 16px;color:var(--m-text);">
+            <i class="far fa-user mr-2" style="color:var(--m-accent);width:16px;"></i>
             {{ __('Profile Settings') }}
           </a>
           @else
           <a href="{{ route('merchant.profile.settings') }}"
              class="dropdown-item"
-             style="font-size:13px;padding:10px 16px;color:var(--mahal-text-primary);">
-            <i class="far fa-user mr-2" style="color:var(--mahal-accent);width:16px;"></i>
+             style="font-size:14px;padding:10px 16px;color:var(--m-text);">
+            <i class="far fa-user mr-2" style="color:var(--m-accent);width:16px;"></i>
             {{ __('Profile Settings') }}
           </a>
           @endif
         @else
         <a href="{{ route('admin.profile.settings') }}"
            class="dropdown-item"
-           style="font-size:13px;padding:10px 16px;color:var(--mahal-text-primary);">
-          <i class="far fa-user mr-2" style="color:var(--mahal-accent);width:16px;"></i>
+           style="font-size:14px;padding:10px 16px;color:var(--m-text);">
+          <i class="far fa-user mr-2" style="color:var(--m-accent);width:16px;"></i>
           {{ __('Profile Settings') }}
         </a>
         @endif
 
-        <div class="dropdown-divider" style="margin:6px 0;border-color:var(--mahal-border);"></div>
+        <div class="dropdown-divider" style="margin:6px 0;border-color:var(--m-border-light);"></div>
 
         {{-- Logout --}}
         <a href="{{ route('logout') }}"
            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
            class="dropdown-item"
-           style="font-size:13px;padding:10px 16px;color:var(--mahal-danger);">
+           style="font-size:14px;padding:10px 16px;color:#ba1a1a;">
           <i class="fas fa-sign-out-alt mr-2" style="width:16px;"></i>
           {{ __('Logout') }}
         </a>

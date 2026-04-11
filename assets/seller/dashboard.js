@@ -10,11 +10,17 @@ var base_url=$("#base_url").val();
 var site_url=$("#site_url").val();
 var dashboard_static_url=$("#dashboard_static").val();
 
+// Figma palette
+var accentColor = '#79582f';
+var accentRgba  = 'rgba(121,88,47,.8)';
+var accentLight = 'rgba(121,88,47,.15)';
 
 loadStaticData();
+window.load_perfomace = load_perfomace;
 load_perfomace(7);
 loadData();
 dashboard_order_statics($('#month').val());
+
 $('#perfomace').on('change',function(){
 	var period=$('#perfomace').val();
 	load_perfomace(period);
@@ -24,8 +30,7 @@ $('.month').on('click',function(e){
 	$('.month').removeClass('active');
 	$(this).addClass("active");
 	var month=e.currentTarget.dataset.month;
-	
-	
+
 	$('#orders-month').html(month);
 	dashboard_order_statics(month);
 });
@@ -43,13 +48,28 @@ function dashboard_order_statics(month) {
 		url:url+'/'+month,
 
 		dataType: 'json',
-		
 
-		success: function(response){ 
+
+		success: function(response){
 			$('#pending_order').html(response.total_pending);
 			$('#completed_order').html(response.total_completed);
 			$('#shipping_order').html(response.total_processing);
 			$('#total_order').html(response.total_orders);
+
+			// Update order statistics progress bars
+			var total = response.total_orders || 0;
+			if (total > 0) {
+				var completedPct  = Math.round((response.total_completed / total) * 100);
+				var processingPct = Math.round((response.total_processing / total) * 100);
+				var cancelledPct  = Math.max(0, 100 - completedPct - processingPct);
+
+				$('#completed_pct').text(completedPct + '%');
+				$('#processing_pct').text(processingPct + '%');
+				$('#cancelled_pct').text(cancelledPct + '%');
+				$('#completed_bar').css('width', completedPct + '%');
+				$('#processing_bar').css('width', processingPct + '%');
+				$('#cancelled_bar').css('width', cancelledPct + '%');
+			}
 		}
 	})
 }
@@ -65,7 +85,7 @@ function loadStaticData() {
 		cache: false,
 		processData:false,
 
-		success: function(response){ 
+		success: function(response){
 			$('#sales_of_earnings').html(response.totalEarnings);
 			$('#total_sales').html(response.totalSales);
 			$('#storage_used').html(response.storage_size);
@@ -112,7 +132,7 @@ function loadStaticData() {
 			order_chart(dates,sales);
 			pie_storage(response.storage_used,response.storage);
 			pie_product(response.products,response.product_limit);
-			
+
 		},
 		error: function(xhr, status, error){
 			if(status == 'parsererror'){
@@ -140,7 +160,7 @@ function loadStaticData() {
 				$('#shipping_order').html(0);
 				$('#total_order').html(0);
 			}
-			
+
 		}
 	})
 }
@@ -153,15 +173,13 @@ function load_perfomace(period) {
 		url: url+'/'+period,
 
 		dataType: 'json',
-		
 
-		success: function(response){ 
+
+		success: function(response){
 			$('#earning_performance').hide();
 			var month_year=[];
 			var dates=[];
 			var totals=[];
-
-			
 
 			if (period != 365) {
 				$.each(response, function(index, value){
@@ -182,7 +200,7 @@ function load_perfomace(period) {
 				});
 				load_perfomace_chart(month_year,totals);
 			}
-			
+
 		}
 	})
 }
@@ -197,7 +215,7 @@ function loadData() {
 		cache: false,
 		processData:false,
 
-		success: function(response){ 
+		success: function(response){
 			analytics_report(response.TotalVisitorsAndPageViews);
 			top_browsers(response.TopBrowsers);
 			Referrers(response.Referrers);
@@ -209,7 +227,9 @@ function loadData() {
 
 }
 function analytics_report(data) {
-	var statistics_chart = document.getElementById("google_analytics").getContext('2d');
+	var el = document.getElementById("google_analytics");
+	if (!el) return;
+	var statistics_chart = el.getContext('2d');
 	var labels=[];
 	var visitors=[];
 	var pageViews=[];
@@ -235,21 +255,21 @@ function analytics_report(data) {
 			datasets: [{
 				label: 'Visitors',
 				data: visitors,
-				borderWidth: 5,
-				borderColor: '#6777ef',
+				borderWidth: 3,
+				borderColor: accentColor,
 				backgroundColor: 'transparent',
 				pointBackgroundColor: '#fff',
-				pointBorderColor: '#6777ef',
+				pointBorderColor: accentColor,
 				pointRadius: 4
 			},
 			{
 				label: 'PageViews',
 				data: pageViews,
-				borderWidth: 5,
-				borderColor: '#6777ef',
+				borderWidth: 3,
+				borderColor: '#361f1a',
 				backgroundColor: 'transparent',
 				pointBackgroundColor: '#fff',
-				pointBorderColor: '#6777ef',
+				pointBorderColor: '#361f1a',
 				pointRadius: 4
 			}]
 		},
@@ -284,7 +304,7 @@ function Referrers(data) {
 	$('#refs').html('');
 	$.each(data, function(index, value){
 		var html='<div class="mb-4"> <div class="text-small float-right font-weight-bold text-muted">'+number_format(value.pageViews)+'</div><div class="font-weight-bold mb-1">'+value.url+'</div></div><hr>';
-		
+
 		$('#refs').append(html);
 	});
 }
@@ -309,10 +329,10 @@ function TopPages(data) {
 	$.each(data, function(index, value){
 		var index=index+1;
 
-		
+
 		var html='<div class="mb-4"> <div class="text-small float-right font-weight-bold text-muted">'+number_format(value.pageViews)+' (Views)</div><div class="font-weight-bold mb-1"><a href="'+site_url+value.url+'" target="_blank" draggable="false">'+value.pageTitle+'</a></div></div>';
 		$('#table-body').append(html);
-		
+
 	});
 }
 
@@ -334,9 +354,9 @@ function number_format(number) {
 function percentage(partialValue, totalValue) {
    var n= (100 / totalValue) * partialValue;
 
-  
+
    return parseInt(n);
-} 
+}
 
 function pie_storage(a,b) {
 	var sparkline_pie = [b,a];
@@ -346,28 +366,30 @@ function pie_storage(a,b) {
 		width: 'auto',
 		height: '200',
 		barWidth: 20,
-
+		sliceColors: [accentLight, accentColor]
 	});
 }
 
 function pie_product(a,b) {
-	//a used 
+	//a used
 	//b limit
 	var r = percentage(a,b);
 	var sparkline_pie = [100,r];
-	
+
 	$(".sparkline-pie-product").sparkline(sparkline_pie, {
 		type: 'pie',
 		width: 'auto',
 		height: '200',
 		barWidth: 20,
-
+		sliceColors: [accentLight, accentColor]
 	});
 }
 
-var ctx = document.getElementById("myChart").getContext('2d');
+var ctxEl = document.getElementById("myChart");
+var ctx = ctxEl ? ctxEl.getContext('2d') : null;
 
 function load_perfomace_chart(dates,totals) {
+	if (!ctx) return;
 	var myChart = new Chart(ctx, {
 		type: 'line',
 		data: {
@@ -376,13 +398,13 @@ function load_perfomace_chart(dates,totals) {
 				label: 'Total Amount',
 				data: totals,
 				borderWidth: 2,
-				backgroundColor: 'rgba(63,82,227,.8)',
+				backgroundColor: accentLight,
 				borderWidth: 0,
 				borderColor: 'transparent',
 				pointBorderWidth: 0,
 				pointRadius: 3.5,
 				pointBackgroundColor: 'transparent',
-				pointHoverBackgroundColor: 'rgba(63,82,227,.8)',
+				pointHoverBackgroundColor: accentRgba,
 			}]
 		},
 		options: {
@@ -392,7 +414,7 @@ function load_perfomace_chart(dates,totals) {
 			scales: {
 				yAxes: [{
 					gridLines: {
-         
+
           drawBorder: false,
           color: '#f2f2f2',
       },
@@ -416,16 +438,19 @@ function load_perfomace_chart(dates,totals) {
 }
 
 
-var balance_chart = document.getElementById("sales_of_earnings_chart").getContext('2d');
+// Guard: sales_of_earnings_chart canvas may not exist in new layout
+var balance_chart_el = document.getElementById("sales_of_earnings_chart");
+var balance_chart = balance_chart_el ? balance_chart_el.getContext('2d') : null;
 
-var balance_chart_bg_color = balance_chart.createLinearGradient(0, 0, 0, 70);
-balance_chart_bg_color.addColorStop(0, 'rgba(63,82,227,.2)');
-balance_chart_bg_color.addColorStop(1, 'rgba(63,82,227,0)');
+var balance_chart_bg_color = null;
+if (balance_chart) {
+	balance_chart_bg_color = balance_chart.createLinearGradient(0, 0, 0, 70);
+	balance_chart_bg_color.addColorStop(0, 'rgba(121,88,47,.2)');
+	balance_chart_bg_color.addColorStop(1, 'rgba(121,88,47,0)');
+}
 
 function sales_of_earnings_chart(dates,totals) {
-	
-
-	
+	if (!balance_chart) return;
 
 	var myChart = new Chart(balance_chart, {
 		type: 'line',
@@ -436,12 +461,12 @@ function sales_of_earnings_chart(dates,totals) {
 				data: totals,
 				backgroundColor: balance_chart_bg_color,
 				borderWidth: 3,
-				borderColor: 'rgba(63,82,227,1)',
+				borderColor: accentColor,
 				pointBorderWidth: 0,
 				pointBorderColor: 'transparent',
 				pointRadius: 3,
 				pointBackgroundColor: 'transparent',
-				pointHoverBackgroundColor: 'rgba(63,82,227,1)',
+				pointHoverBackgroundColor: accentColor,
 			}]
 		},
 		options: {
@@ -481,13 +506,12 @@ function sales_of_earnings_chart(dates,totals) {
 }
 
 
-var sales_chart = document.getElementById("total-sales-chart").getContext('2d');
-
-var sales_chart_bg_color = sales_chart.createLinearGradient(0, 0, 0, 80);
-balance_chart_bg_color.addColorStop(0, 'rgba(63,82,227,.2)');
-balance_chart_bg_color.addColorStop(1, 'rgba(63,82,227,0)');
+// Guard: total-sales-chart canvas may not exist in new layout
+var sales_chart_el = document.getElementById("total-sales-chart");
+var sales_chart = sales_chart_el ? sales_chart_el.getContext('2d') : null;
 
 function order_chart(dates,sales) {
+	if (!sales_chart) return;
 	var myChart = new Chart(sales_chart, {
 		type: 'line',
 		data: {
@@ -496,14 +520,14 @@ function order_chart(dates,sales) {
 				label: 'Orders',
 				data: sales,
 				borderWidth: 2,
-				backgroundColor: balance_chart_bg_color,
+				backgroundColor: accentLight,
 				borderWidth: 3,
-				borderColor: 'rgba(63,82,227,1)',
+				borderColor: accentColor,
 				pointBorderWidth: 0,
 				pointBorderColor: 'transparent',
 				pointRadius: 3,
 				pointBackgroundColor: 'transparent',
-				pointHoverBackgroundColor: 'rgba(63,82,227,1)',
+				pointHoverBackgroundColor: accentColor,
 			}]
 		},
 		options: {
@@ -538,7 +562,7 @@ function order_chart(dates,sales) {
 				}]
 			},
 		}
-	}); 
+	});
 }
 
-})(jQuery);	
+})(jQuery);
