@@ -257,7 +257,7 @@ class FrontendController extends Controller
     public function translate(Request $request){
         Session::put('locale',$request->local);
         \App::setlocale($request->local);
-        return redirect('/');
+        return redirect()->back();
     }
     
 

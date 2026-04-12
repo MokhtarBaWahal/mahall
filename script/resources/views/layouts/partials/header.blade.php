@@ -38,14 +38,34 @@
   <ul class="navbar-nav navbar-right" style="align-items:center;gap:6px;">
 
     {{-- Language switcher --}}
-    <li class="nav-item d-none d-md-block">
-      <a href="#"
+    <li class="dropdown nav-item d-none d-md-block">
+      <a href="#" data-toggle="dropdown"
+         class="nav-link dropdown-toggle"
          style="display:flex;align-items:center;gap:6px;padding:6px 12px;
-                border-radius:var(--m-radius-sm);font-size:14px;font-weight:500;
+                border-radius:var(--m-radius-sm);font-size:14px;font-weight:600;
                 color:var(--m-text)!important;text-decoration:none;">
         <i class="fas fa-globe" style="font-size:14px;color:var(--m-text-body);"></i>
         {{ strtoupper(app()->getLocale()) }}
       </a>
+      <div class="dropdown-menu dropdown-menu-right" style="min-width:140px;padding:6px 0;">
+        <form id="lang-form" action="{{ route('translate') }}" method="POST" class="d-none">
+          @csrf
+          <input type="hidden" name="local" id="lang-input" value="">
+        </form>
+        @php
+          $availableLangs = [
+            'ar' => 'العربية',
+            'en' => 'English',
+          ];
+        @endphp
+        @foreach($availableLangs as $code => $label)
+          <a href="#" class="dropdown-item{{ app()->getLocale() === $code ? ' active' : '' }}"
+             style="font-size:14px;padding:8px 16px;{{ app()->getLocale() === $code ? 'font-weight:700;color:var(--m-primary)!important;background:var(--m-sidebar-bg)!important;' : '' }}"
+             onclick="event.preventDefault();document.getElementById('lang-input').value='{{ $code }}';document.getElementById('lang-form').submit();">
+            {{ $label }}
+          </a>
+        @endforeach
+      </div>
     </li>
 
     {{-- Help --}}
