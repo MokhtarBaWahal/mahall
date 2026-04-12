@@ -280,7 +280,7 @@
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h4 style="font-size:20px;font-weight:700;margin:0;">{{ __('Recent Orders') }}</h4>
-        <a href="{{ url('/seller/orders/all') }}"
+        <a href="{{ route('seller.order.index') }}"
            style="font-size:14px;color:var(--m-accent);font-weight:600;text-decoration:none;">
           {{ __('View All') }}
         </a>

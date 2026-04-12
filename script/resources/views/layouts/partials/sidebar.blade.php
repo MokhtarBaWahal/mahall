@@ -255,7 +255,7 @@
 
         {{-- Orders --}}
         <li class="{{ Request::is('seller/order*') ? 'active' : '' }}">
-          <a class="nav-link" href="{{ url('/seller/orders/all') }}">
+          <a class="nav-link" href="{{ route('seller.order.index') }}">
             <i class="fas fa-shopping-bag"></i>
             <span>{{ __('Orders') }}</span>
           </a>
