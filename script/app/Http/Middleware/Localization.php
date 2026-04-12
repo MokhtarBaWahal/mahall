@@ -21,7 +21,7 @@ class Localization
             \App::setlocale(\Session::get('locale'));
         }
         else{
-            Session::put('locale',env('DEFAULT_LANG'));
+            Session::put('locale',env('DEFAULT_LANG', 'ar'));
             \App::setlocale(\Session::get('locale'));
 
         }
