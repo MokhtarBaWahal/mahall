@@ -95,6 +95,10 @@ class FrontendController extends Controller
       return view('welcome',compact('latest_gallery','plans','features','header','about_1','about_3','about_2','testimonials','brands','ecom_features','counter_area'));
 
        }
+       // If logged-in seller, go to dashboard; otherwise load storefront
+       if(\Auth::check() && \Auth::user()->role_id == 3){
+         return redirect('/seller/dashboard');
+       }
        return redirect('/check');
     }
 
