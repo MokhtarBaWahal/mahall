@@ -70,9 +70,23 @@ a{color:var(--m-accent)}a:hover{color:var(--m-primary)}
 [dir="rtl"] .sidebar-menu>li.active>a,[dir="rtl"] .sidebar-menu>li>a.active{border-left:4px solid var(--m-accent)!important}
 [dir="ltr"] .sidebar-menu>li.active>a,[dir="ltr"] .sidebar-menu>li>a.active{border-right:4px solid var(--m-accent)!important}
 
-/* ── Main Content ── */
+/* ── Main Content — sidebar offset ── */
 .main-content,.main-wrapper{background:var(--m-page-bg)!important}
-.main-content{padding:32px!important}
+.main-content{padding-top:100px!important;padding-bottom:32px!important;width:100%;position:relative}
+[dir="ltr"] .main-content{padding-left:calc(var(--m-sidebar-w) + 20px)!important;padding-right:32px!important}
+[dir="rtl"] .main-content{padding-right:calc(var(--m-sidebar-w) + 20px)!important;padding-left:32px!important}
+/* Footer offset */
+.main-footer{display:inline-block;width:100%}
+[dir="ltr"] .main-footer{padding-left:calc(var(--m-sidebar-w) + 20px)!important;padding-right:32px!important}
+[dir="rtl"] .main-footer{padding-right:calc(var(--m-sidebar-w) + 20px)!important;padding-left:32px!important}
+/* Navbar offset — override the 250px default to match our sidebar width */
+[dir="ltr"] .navbar{left:var(--m-sidebar-w)!important;right:0!important}
+[dir="rtl"] .navbar{right:var(--m-sidebar-w)!important;left:0!important}
+/* sidebar-mini overrides */
+body.sidebar-mini .main-content,body.sidebar-mini .main-footer{padding-left:90px!important;padding-right:30px!important}
+[dir="rtl"] body.sidebar-mini .main-content,[dir="rtl"] body.sidebar-mini .main-footer{padding-right:90px!important;padding-left:30px!important}
+body.sidebar-mini .navbar{left:65px!important;right:0!important}
+[dir="rtl"] body.sidebar-mini .navbar{right:65px!important;left:0!important}
 
 /* ── Cards ── */
 .card{background:var(--m-card-bg)!important;border:none!important;border-radius:var(--m-radius-xl)!important;box-shadow:0 1px 2px rgba(0,0,0,.05)!important}
@@ -164,8 +178,16 @@ a{color:var(--m-accent)}a:hover{color:var(--m-primary)}
 [dir="rtl"] .ml-1{margin-left:0!important;margin-right:.25rem!important}
 [dir="rtl"] .ml-2{margin-left:0!important;margin-right:.5rem!important}
 
+/* ── Sidebar-gone (mobile toggle) ── */
+body.sidebar-gone .main-content,body.sidebar-gone .main-footer{padding-left:30px!important;padding-right:30px!important}
+body.sidebar-gone .navbar{left:0!important;right:0!important}
+
 /* ── Responsive ── */
-@media(max-width:767px){.main-sidebar{width:260px!important}.main-content{padding:16px!important}}
+@media(max-width:991px){
+  .main-content{padding-left:20px!important;padding-right:20px!important;padding-top:80px!important}
+  .main-footer{padding-left:20px!important;padding-right:20px!important}
+  .navbar{left:0!important;right:0!important}
+}
   </style>
   
   @stack('style')
