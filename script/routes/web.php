@@ -264,7 +264,7 @@ Route::group([
     Route::get('/product/create', 'ProductController@create')->name('product.create');
     Route::post('/product', 'ProductController@store')->name('product.store');
     Route::post('/product/store-group', 'ProductController@store_group')->name('product.store_group');
-    Route::get('/product/list', 'ProductController@list')->name('product.list');
+    Route::get('/product/list/{type?}', 'ProductController@index')->name('product.list');
     Route::get('/product/{id}/edit', 'ProductController@edit')->name('product.edit');
     Route::get('/product/{id}/variation', 'ProductController@variation')->name('product.variation');
     Route::put('/product/{id}', 'ProductController@update')->name('product.update');

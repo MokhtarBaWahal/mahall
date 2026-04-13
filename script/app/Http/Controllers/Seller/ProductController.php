@@ -31,21 +31,43 @@ class ProductController extends Controller
     public function index(Request $request,$type=1)
     {
         $auth_id=Auth::id();
+        $eagerLoad = ['preview','price','stock','category.category'];
+        $query = Term::where('type','product')->with($eagerLoad)->where('user_id',$auth_id);
+
+        if ($type !== 'all') {
+            $query->where('status', $type);
+        } else {
+            $query->where('status', '!=', 0);
+        }
+
         if ($request->src) {
-            $posts=Term::where('type','product')->with('preview')->where('status',$type)->where('user_id',$auth_id)->where($request->type,'LIKE','%'.$request->src.'%')->latest()->paginate(30);
+            $posts = $query->where($request->type ?? 'title','LIKE','%'.$request->src.'%')->latest()->paginate(20);
+        } else {
+            $posts = $query->withCount('order')->latest()->paginate(20);
         }
-        else{
-            $posts=Term::where('type','product')->with('preview')->withCount('order')->where('status',$type)->where('user_id',$auth_id)->latest()->paginate(30);
-        }
-       
+
         $src=$request->src ?? '';
-        
-     
+
+
         $actives=Term::where('type','product')->where('status',1)->where('user_id',$auth_id)->count();
         $drafts=Term::where('type','product')->where('status',2)->where('user_id',$auth_id)->count();
         $incomplete=Term::where('type','product')->where('status',3)->where('user_id',$auth_id)->count();
         $trash=Term::where('type','product')->where('status',0)->where('user_id',$auth_id)->count();
-        return view('seller.products.index',compact('posts','src','type','actives','drafts','incomplete','trash','request'));
+        $total_products = $actives + $drafts + $incomplete;
+
+        // Low stock count (stock_qty <= 5 and stock_qty > 0)
+        $low_stock = Term::where('type','product')->where('user_id',$auth_id)->where('status','!=',0)
+            ->whereHas('stock', function($q){ $q->where('stock_qty','<=',5)->where('stock_qty','>',0); })->count();
+
+        // Total inventory value
+        $inventory_value = Term::where('type','product')->where('user_id',$auth_id)->where('status','!=',0)
+            ->with('price','stock')->get()->sum(function($item){
+                $price = $item->price->price ?? 0;
+                $qty = $item->stock->stock_qty ?? 0;
+                return $price * $qty;
+            });
+
+        return view('seller.products.index',compact('posts','src','type','actives','drafts','incomplete','trash','request','total_products','low_stock','inventory_value'));
     }
 
     /**
