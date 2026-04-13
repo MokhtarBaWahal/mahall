@@ -270,6 +270,7 @@ Route::group([
     Route::put('/product/{id}', 'ProductController@update')->name('product.update');
     Route::get('/product/{id}/price', 'ProductController@price')->name('products.price');
     Route::get('/product/{id}/seo', 'ProductController@seo')->name('products.seo');
+    Route::get('/product/{id}/{type}', 'ProductController@edit')->name('product.edit.type')->where('type', 'image|files|options|inventory');
     Route::post('/product/delete', 'ProductController@destroy')->name('products.destroys');
     Route::post('/product/add-row', 'ProductController@add_row')->name('product.add_row');
     Route::post('/product/row-update', 'ProductController@row_update')->name('product.row_update');
