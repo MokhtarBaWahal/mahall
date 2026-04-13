@@ -407,7 +407,8 @@ function user_limit()
 	$brand_limit=$plan->brand_limit ?? 0;
 	$live_support=$plan->live_support ?? false;
 	$custom_domain=$plan->custom_domain ?? false;
-	$product_limit=$plan->product_limit ?? 0;
+	$product_limit=$plan->product_limit ?? 4;
+	if($product_limit == 0) $product_limit = 4; // free tier default
 	$category_limit=$plan->category_limit ?? 0;
 	$customer_limit=$plan->customer_limit ?? 0;
 	$customer_panel=$plan->customer_panel ?? false;
