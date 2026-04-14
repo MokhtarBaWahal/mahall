@@ -399,7 +399,8 @@ function user_limit()
 	$pos=$plan->pos ?? false;
 	$pwa=$plan->pwa ?? false;
 	$qr_code=$plan->qr_code ?? false;
-	$storage=$plan->storage ?? 0;
+	$storage=$plan->storage ?? 100;
+	if($storage == 0) $storage = 100; // free tier: 100 MB
 	$whatsapp=$plan->whatsapp ?? false;
 	$custom_js=$plan->custom_js ?? false;
 	$inventory=$plan->inventory ?? false;
