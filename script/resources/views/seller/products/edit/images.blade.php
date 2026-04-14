@@ -1,95 +1,71 @@
 @extends('layouts.app')
 @push('style')
 <link rel="stylesheet" href="{{ asset('assets/css/dropzone.css') }}">
-
 @endpush
 @section('head')
-@include('layouts.partials.headersection',['title'=>'Product Images'])
+@include('layouts.partials.headersection',['title'=>__('Product Images')])
 @endsection
 @section('content')
 
 <div class="row">
-	<div class="col-lg-12">      
-		
-			<div class="card">
-				<div class="card-body">
-					
-					<div class="row">
-						<div class="col-sm-3">
-							<ul class="nav nav-pills flex-column">
-								<li class="nav-item">
-									<a class="nav-link" href="{{ route('seller.product.edit',$info->id) }}"><i class="fas fa-cogs"></i> {{ __('Item') }}</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{ url('seller/product/'.$info->id.'/price') }}"><i class="fas fa-money-bill-alt"></i> {{ __('Price') }}</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link " href="{{ url('seller/product/'.$info->id.'/option') }}"><i class="fas fa-tags"></i> {{ __('Options') }}</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{ url('seller/product/'.$info->id.'/varient') }}"><i class="fas fa-expand-arrows-alt"></i> {{ __('Variants') }}</a>
-								</li>
-								
-								<li class="nav-item">
-									<a class="nav-link active" href="{{ url('seller/product/'.$info->id.'/image') }}"><i class="far fa-images"></i> {{ __('Images') }}</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{ url('seller/product/'.$info->id.'/inventory') }}"><i class="fa fa-cubes"></i> {{ __('Inventory') }}</a>
-								</li>
+    <div class="col-lg-12">
+        <div class="card" style="border-radius:var(--m-radius-xl)!important;overflow:hidden;">
+            <div class="card-body" style="padding:0!important;">
+                <div class="row no-gutters">
+                    @include('seller.products.edit._sidebar', ['activeTab' => 'image'])
 
-								<li class="nav-item">
-									<a class="nav-link" href="{{ url('seller/product/'.$info->id.'/files') }}"><i class="fas fa-file"></i> {{ __('Files') }}</a>
-								</li>
+                    <div class="col-sm-9">
+                        <div style="padding:32px;">
+                            <h3 style="font-size:22px;font-weight:700;color:var(--m-primary);margin:0 0 4px;">{{ __('Product Images') }}</h3>
+                            <p style="color:#8c7b6b;font-size:14px;margin:0 0 28px;">{{ __('Upload product images here.') }}</p>
 
-								<li class="nav-item">
-									<a class="nav-link" href="{{ url('seller/product/'.$info->id.'/seo') }}"><i class="fas fa-chart-line"></i> {{ __('SEO') }}</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{ url('seller/product/'.$info->id.'/express-checkout') }}"><i class="fas fa-cart-arrow-down"></i> {{ __('Express checkout') }}</a>
-								</li>
-							</ul>
-						</div>
-						<div class="col-sm-9">
-												
-							<form action="{{ route('seller.media.store') }}" enctype="multipart/form-data" class="dropzone" id="mydropzone">
-								@csrf
-								<input type="hidden" name="term" value="{{ $info->id }}">	
-							</form>
-							<div class="row">
-								@foreach($info->medias as $key => $row)
-								<div class="col-sm-3" id="m_area{{ $key }}">
-									<div class="card">
-										<div class="card-body">
-											<img src="{{ asset($row->url) }}" alt="" height="100" width="150">
-										</div>
-										<div class="card-footer">
-											<button class="btn btn-danger col-12" onclick="remove_image('{{ base64_encode($row->id) }}',{{ $key }})">{{ __('Remove') }}</button>
-										</div>
-									</div>
-								</div>
-								@endforeach	
-							</div>
+                            <div style="margin-bottom:28px;">
+                                <form action="{{ route('seller.media.store') }}" enctype="multipart/form-data" class="dropzone" id="mydropzone" style="border:2px dashed #d4c8bb!important;border-radius:var(--m-radius-md)!important;background:var(--m-sidebar-bg)!important;min-height:180px;display:flex;align-items:center;justify-content:center;">
+                                    @csrf
+                                    <input type="hidden" name="term" value="{{ $info->id }}">
+                                </form>
+                            </div>
 
-							
-								
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	</div>
-
+                            @if(count($info->medias) > 0)
+                            <h5 style="font-size:16px;font-weight:700;color:var(--m-primary);margin:0 0 16px;">{{ __('Images') }} ({{ count($info->medias) }})</h5>
+                            <div class="row">
+                                @foreach($info->medias as $key => $row)
+                                <div class="col-sm-3 col-6" id="m_area{{ $key }}" style="margin-bottom:20px;">
+                                    <div style="background:var(--m-card-bg);border-radius:var(--m-radius-md);overflow:hidden;border:1px solid var(--m-border-light);transition:transform .2s;">
+                                        <div style="height:140px;overflow:hidden;background:#f5efe9;">
+                                            <img src="{{ asset($row->url) }}" alt="" style="width:100%;height:100%;object-fit:cover;">
+                                        </div>
+                                        <div style="padding:12px;text-align:center;">
+                                            <button class="btn" onclick="remove_image('{{ base64_encode($row->id) }}',{{ $key }})" style="background:rgba(237,100,100,0.1);color:#e53e3e;border:none;border-radius:var(--m-radius-sm);padding:8px 20px;font-size:13px;font-weight:600;width:100%;">
+                                                <i class="fas fa-trash-alt" style="margin-inline-end:4px;"></i>{{ __('Remove') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <form class="basicform" action="{{ route('seller.medias.destroy') }}">
-	@csrf
-	<input type="hidden" name="m_id" id="m_id">
+    @csrf
+    <input type="hidden" name="m_id" id="m_id">
 </form>
 @endsection
+@push('css')
+<style>
+.dropzone .dz-message{margin:0!important;color:#8c7b6b!important;font-size:15px!important;font-weight:500!important;}
+.dropzone .dz-preview .dz-image{border-radius:var(--m-radius-sm)!important;}
+</style>
+@endpush
 @push('js')
 <script type="text/javascript" src="{{ asset('assets/js/dropzone.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/form.js') }}"></script>
 <script src="{{ asset('assets/seller/product/images.js') }}"></script>
-
 @endpush

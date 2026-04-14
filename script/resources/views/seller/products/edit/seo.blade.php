@@ -1,77 +1,47 @@
 @extends('layouts.app')
 @section('head')
-@include('layouts.partials.headersection',['title'=>'SEO'])
+@include('layouts.partials.headersection',['title'=>__('Product SEO')])
 @endsection
 @section('content')
 
 <div class="row">
-	<div class="col-lg-12">      
-		
-		<div class="card">
-			<div class="card-body">
+    <div class="col-lg-12">
+        <div class="card" style="border-radius:var(--m-radius-xl)!important;overflow:hidden;">
+            <div class="card-body" style="padding:0!important;">
+                <div class="row no-gutters">
+                    @include('seller.products.edit._sidebar', ['activeTab' => 'seo'])
 
-				<div class="row">
-					<div class="col-sm-3">
-						<ul class="nav nav-pills flex-column">
-							<li class="nav-item">
-								<a class="nav-link" href="{{ route('seller.product.edit',$info->id) }}"><i class="fas fa-cogs"></i> {{ __('Item') }}</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="{{ url('seller/product/'.$info->id.'/price') }}"><i class="fas fa-money-bill-alt"></i> {{ __('Price') }}</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link " href="{{ url('seller/product/'.$info->id.'/option') }}"><i class="fas fa-tags"></i> {{ __('Options') }}</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="{{ url('seller/product/'.$info->id.'/varient') }}"><i class="fas fa-expand-arrows-alt"></i> {{ __('Variants') }}</a>
-							</li>
-							
-							<li class="nav-item">
-								<a class="nav-link" href="{{ url('seller/product/'.$info->id.'/image') }}"><i class="far fa-images"></i> {{ __('Images') }}</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="{{ url('seller/product/'.$info->id.'/inventory') }}"><i class="fa fa-cubes"></i> {{ __('Inventory') }}</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="{{ url('seller/product/'.$info->id.'/files') }}"><i class="fas fa-file"></i> {{ __('Files') }}</a>
-							</li>
+                    <div class="col-sm-9">
+                        <div style="padding:32px;">
+                            <h3 style="font-size:22px;font-weight:700;color:var(--m-primary);margin:0 0 4px;">{{ __('Product SEO') }}</h3>
+                            <p style="color:#8c7b6b;font-size:14px;margin:0 0 28px;">{{ __('Update your product details below.') }}</p>
 
-							<li class="nav-item">
-								<a class="nav-link active" href="{{ url('seller/product/'.$info->id.'/seo') }}"><i class="fas fa-chart-line"></i> {{ __('SEO') }}</a>
-							</li>
-							<li class="nav-item">
-									<a class="nav-link" href="{{ url('seller/product/'.$info->id.'/express-checkout') }}"><i class="fas fa-cart-arrow-down"></i> {{ __('Express checkout') }}</a>
-								</li>
-						</ul>
-					</div>
-					<div class="col-sm-9">
-						<form class="basicform" method="post" action="{{ route('seller.products.seo',$info->id) }}">
-						@csrf
-						<div class="form-group">
-							<label>{{ __('Meta Title') }}</label>
-							<input type="text" name="meta_title" class="form-control" required="" value="{{ $json->meta_title }}">
-						</div>				
-						<div class="form-group">
-							<label>{{ __('Meta Keyword') }}</label>
-							<input type="text" name="meta_keyword" class="form-control" required="" value="{{ $json->meta_keyword }}">
-						</div>
-						<div class="form-group">
-							<label>{{ __('Meta Description') }}</label>
-							<textarea class="form-control" name="meta_description" required="" >{{ $json->meta_description }}</textarea>
-						</div>
-
-						<button type="submit" class="btn btn-primary basicbtn">{{ __('Save Changes') }}</button>	
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+                            <form class="basicform" method="post" action="{{ route('seller.products.seo',$info->id) }}">
+                                @csrf
+                                <div class="form-group" style="margin-bottom:20px;">
+                                    <label style="font-size:14px;font-weight:600;color:var(--m-primary);margin-bottom:8px;display:block;">{{ __('Meta Title') }}</label>
+                                    <input type="text" name="meta_title" class="form-control" required="" value="{{ $json->meta_title }}" style="padding:12px 16px!important;font-size:15px!important;">
+                                </div>
+                                <div class="form-group" style="margin-bottom:20px;">
+                                    <label style="font-size:14px;font-weight:600;color:var(--m-primary);margin-bottom:8px;display:block;">{{ __('Meta Keyword') }}</label>
+                                    <input type="text" name="meta_keyword" class="form-control" required="" value="{{ $json->meta_keyword }}" style="padding:12px 16px!important;font-size:15px!important;">
+                                </div>
+                                <div class="form-group" style="margin-bottom:20px;">
+                                    <label style="font-size:14px;font-weight:600;color:var(--m-primary);margin-bottom:8px;display:block;">{{ __('Meta Description') }}</label>
+                                    <textarea class="form-control" name="meta_description" required="" rows="4" style="padding:12px 16px!important;font-size:15px!important;">{{ $json->meta_description }}</textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary basicbtn" style="background:var(--m-primary)!important;border-color:var(--m-primary)!important;padding:12px 32px!important;font-size:15px!important;">
+                                    <i class="fas fa-save" style="margin-inline-end:6px;"></i>{{ __('Save Changes') }}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 @push('js')
-
 <script type="text/javascript" src="{{ asset('assets/js/form.js') }}"></script>
-
 @endpush
