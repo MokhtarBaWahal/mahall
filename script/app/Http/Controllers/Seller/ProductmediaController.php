@@ -74,69 +74,66 @@ class ProductmediaController extends Controller
         'media.*' => 'required|image'
 
       ]);
-     
+
      $auth_id=Auth::id();
-      
-       
-        
-       
         $imageSizes= json_decode(imageSizes());
 
         if($request->hasfile('media'))
         {
+            $data = [];
             foreach($request->file('media') as $image)
             {
 
                 $name = uniqid().date('dmy').time(). "." . $image->extension();
                 $ext= $image->extension();
 
-                
-                
                 $this->fullname=date('dmy').time().uniqid().'.'.$image->extension();
 
                 $path='uploads/'.$auth_id.date('/y').'/'.date('m').'/';
-                $this->path=$path; 
-               
+                $this->path=$path;
+
+                // Ensure upload directory exists
+                if (!file_exists($path)) {
+                    mkdir($path, 0755, true);
+                }
+
                 if(substr($image->getMimeType(), 0, 5) == 'image' &&  $ext != 'ico') {
-                  
-                  $image->move($path, $name); 
-                  $compress= $this->run($path.$name,$ext,60); 
 
-                  // if (file_exists($path.$name) ) {
-                  //   if (!in_array(strtolower($ext), array('png','gif'))) {
-                      
-                  //        unlink($path.$name);
-                  //   }
-                   
-                  // }
-                   
-               
+                  $image->move($path, $name);
 
-                
-                    $schemeurl=parse_url(url('/'));
-                    if ($schemeurl['scheme']=='https') {
-                       $url=substr(url('/'), 6);
-                    }
-                    else{
-                         $url=substr(url('/'), 5);
-                    }
+                  // Try compression, fallback to original file
+                  $compress = null;
+                  try {
+                      $compress = $this->run($path.$name, $ext, 60);
+                  } catch (\Exception $e) {
+                      // Compression failed, use original
+                  }
 
-                    $fileUrl=$url.'/'.$compress['data']['image'];
-                    $newpath=$path;
-                    $filename=$compress['data']['image'];
-                    $imgArr=explode('.', $compress['data']['image']);
-                     if (file_exists($compress['data']['image'])) {
-                     foreach ($imageSizes as $size) {
-                       
-                           $img=Image::make($compress['data']['image']);
-                           $img->fit($size->width,$size->height);
-                           
-                           $img->save($imgArr[0].$size->key.'.'.$imgArr[1]);
-                        }
-                       
-                     }
-                
-                 
+                  if ($compress && isset($compress['data']['image'])) {
+                      $filename = $compress['data']['image'];
+                  } else {
+                      // Fallback: use original uploaded file
+                      $filename = $path . $name;
+                  }
+
+                  // Use APP_URL for consistent URL (not subdomain URL)
+                  $baseUrl = env('APP_URL', url('/'));
+                  $fileUrl = $baseUrl . '/' . $filename;
+
+                  // Generate image sizes if file exists
+                  if (file_exists($filename)) {
+                      $imgArr = explode('.', $filename);
+                      try {
+                          foreach ($imageSizes ?? [] as $size) {
+                              $img = Image::make($filename);
+                              $img->fit($size->width, $size->height);
+                              $img->save($imgArr[0].$size->key.'.'.$imgArr[1]);
+                          }
+                      } catch (\Exception $e) {
+                          // Image resize failed, continue without thumbnails
+                      }
+                  }
+
                 $media=new Media;
                 $media->name=$filename;
                 $media->url=$fileUrl;
@@ -146,14 +143,12 @@ class ProductmediaController extends Controller
 
                 $dta['media_id']=$media->id;
                 $dta['term_id']=$request->term;
-                Postmedia::insert($dta);  
+                Postmedia::insert($dta);
 
             }
-           
-                      
-               
+
             }
-            return response($data);
+            return response($data ?? []);
         }
 
 
